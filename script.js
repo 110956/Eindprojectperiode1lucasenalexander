@@ -1,21 +1,38 @@
-var strand;
-var strandX = 0;
+var aantalRijenRaster = 6;
+var aantalKolommenRaster = 9;
+var celGrootte;
+
+var spriteJos;
+var xJos;
+var yJos;
 
 function preload() {
-  strand = loadImage("images/backgrounds/strand.jpg");
+  brug = loadImage("images/backgrounds/dame_op_brug_1800.jpg");
+  spriteJos = loadImage("images/sprites/Jos100px/Jos_0.png");
 }
 
 function setup() {
-  canvas = createCanvas(600,400);
-  canvas.parent('processing');
+  canvas = createCanvas(901,601);
+  canvas.parent();
+  celGrootte = width / aantalKolommenRaster;
 }
 
 function draw() {
-  background('grey');
-  image(strand,strandX,0);
-  image(strand,strandX + strand.width,0);
-  strandX--;
-  if (strandX == -strand.width) {
-    strandX = 0;
-  }  
+  background(brug);
+  tekenRaster();
+}
+
+function tekenRaster() {
+  push();
+  noFill();
+  stroke('grey');
+  /*
+  Maak hieronder een dubbele herhaling om een raster te maken.
+  HINT: je kunt terugkijken naar het raster dat je in H1 hebt gemaakt.
+  Maak gebruik van de variabelen die bovenaan zijn gedeclareerd.
+  */
+  
+      rect(4*celGrootte,2*celGrootte,celGrootte,celGrootte);
+
+  pop();
 }
