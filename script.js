@@ -118,11 +118,11 @@ function setup() {
   
   alice = new Vijand(700,200);
   alice.stapGrootte = 1*eve.stapGrootte;
-  alice.sprite = loadImage("images/sprites/Alice100px/Alice.png");
+  alice.sprite = loadImage("images/sprites/Alice100px/tank1.png");
 
   bob = new Vijand(700, 400)
   bob.stapGrootte = 1*eve.stapGrootte;
-  bob.sprite = loadImage("images/sprites/Bob100px/Bob.png");
+  bob.sprite = loadImage("images/sprites/Bob100px/tank1.png");
   
 }
 
@@ -151,7 +151,6 @@ function draw() {
     noLoop();
     background(dood);
   }
-  
   if (eve.gehaald) {
     noLoop();
     background(gewonnen);
