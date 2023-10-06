@@ -112,7 +112,7 @@ function setup() {
   eve = new Jos();
   eve.stapGrootte = 1*raster.celGrootte;
   for (var b = 0;b < 6;b++) {
-    frameEve = loadImage("images/sprites/Eve100px/Eve_" + b + ".png");
+    frameEve = loadImage("images/sprites/Eve100px/soldaat2.png");
     eve.animatie.push(frameEve);
   }
   
