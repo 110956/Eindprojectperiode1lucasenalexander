@@ -34,17 +34,17 @@ class Jos {
   }
   
   beweeg() {
-    if (keyIsDown(RIGHT_ARROW)) {
+    if (keyIsDown(68)) {
       this.x += this.stapGrootte;
       this.frameNummer = 1;
       this.aanDeBeurt = false;
     }
-    if (keyIsDown(UP_ARROW)) {
+    if (keyIsDown(87)) {
       this.y -= this.stapGrootte;
       this.frameNummer = 4;
       this.aanDeBeurt = false;
     }
-    if (keyIsDown(DOWN_ARROW)) {
+    if (keyIsDown(83)) {
       this.y += this.stapGrootte;
       this.frameNummer = 5;
       this.aanDeBeurt = false;
@@ -95,7 +95,8 @@ class Vijand {
 
 function preload() {
   brug = loadImage("images/backgrounds/dame_op_brug_1800.jpg");
-  dood = loadImage("images/backgrounds/Disabled-Death-Screen.png")
+  dood = loadImage("images/backgrounds/Disabled-Death-Screen.png");
+  gewonnen = loadImage("images/backgrounds/GTA-Mission-Passed.jpg")
 }
 
 function setup() {
@@ -152,9 +153,7 @@ function draw() {
   }
   
   if (eve.gehaald) {
-    background('green');
-    fill('white');
-    text("Je hebt gewonnen!",30,300);
     noLoop();
+    background(gewonnen);
   }
 }
