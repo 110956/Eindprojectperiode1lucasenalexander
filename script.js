@@ -92,11 +92,35 @@ class Vijand {
     image(this.sprite,this.x,this.y,raster.celGrootte,raster.celGrootte);
   }
 }
+var x = [500, 550, 600, 650, 700, 750, 800, 850];
+class Bom {
+  constructor(y,vy) {
+    this.x = random(x);
+    this.y = y;
+    this.vy = vy;
+		this.sprite = null;
+		this.stapGrootte = null;
+  }
 
+  beweeg() {
+    this.y += this.vy
+    if (this.y >= 600 || this.y < 0) {
+			this.vy *= -1;
+		}
+	this.y = constrain(this.y, 0, canvas.height - raster.celGrootte);
+	}
+    toon() {
+		        image(this.sprite, this.x, this.y, raster.celGrootte, raster.celGrootte);
+	}
+}
+let gewonnen2;
+let explosion;
 function preload() {
   brug = loadImage("images/backgrounds/dame_op_brug_1800.jpg");
   dood = loadImage("images/backgrounds/Disabled-Death-Screen.png");
-  gewonnen = loadImage("images/backgrounds/GTA-Mission-Passed.jpg")
+  gewonnen = loadImage("images/backgrounds/GTA-Mission-Passed.jpg");
+  gewonnen2 = loadSound("Sound/Win.mp3");
+  exlposion = loadSound("Sound/Explosion.mp3");
 }
 
 function setup() {
@@ -123,11 +147,31 @@ function setup() {
   bob = new Vijand(700, 400)
   bob.stapGrootte = 1*eve.stapGrootte;
   bob.sprite = loadImage("images/sprites/Bob100px/tank1.png");
+
+  bom1 = new Bom(100, raster.celGrootte);
+	bom1.stapGrootte = 2 * raster.celGrootte;
+	bom1.sprite = loadImage("images/sprites/bomb.png");
+
+	bom2 = new Bom(400, -2 * raster.celGrootte);
+	bom2.stapGrootte = 3 * raster.celGrootte;
+	bom2.sprite = loadImage("images/sprites/bomb.png");
+
+	bom3 = new Bom(300, raster.celGrootte);
+	bom3.stapGrootte = 1 * raster.celGrootte;
+	bom3.sprite = loadImage("images/sprites/bomb.png");
   
 }
 
 function draw() {
   background(brug);
+  bob.beweeg();
+	bom1.beweeg();
+	bom2.beweeg();
+	bom3.beweeg();
+  bob.toon();
+	bom1.toon();
+	bom2.toon();
+	bom3.toon();
   raster.teken();
   
   if (eve.aanDeBeurt) {
@@ -154,5 +198,6 @@ function draw() {
   if (eve.gehaald) {
     noLoop();
     background(gewonnen);
+    gewonnen2.play(); 
   }
 }
