@@ -115,8 +115,9 @@ class Bom {
 }
 let gewonnen2;
 let explosion;
+
 function preload() {
-  brug = loadImage("images/backgrounds/dame_op_brug_1800.jpg");
+  achtergrond = loadImage("images/backgrounds/informatica playground.jpg");
   dood = loadImage("images/backgrounds/Disabled-Death-Screen.png");
   gewonnen = loadImage("images/backgrounds/GTA-Mission-Passed.jpg");
   gewonnen2 = loadSound("Sound/Win.mp3");
@@ -163,7 +164,7 @@ function setup() {
 }
 
 function draw() {
-  background(brug);
+  background(achtergrond);
   bob.beweeg();
 	bom1.beweeg();
 	bom2.beweeg();
