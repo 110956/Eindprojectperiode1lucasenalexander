@@ -31,6 +31,7 @@ class Jos {
     this.stapGrootte = null;
     this.gehaald = false;
     this.aanDeBeurt = true;
+    this.levens = 1;
   }
   
   beweeg() {
@@ -49,7 +50,11 @@ class Jos {
       this.frameNummer = 5;
       this.aanDeBeurt = false;
     }
-    
+    if (keyIsDown(65)) {
+      this.x -= this.stapGrootte;
+      this.frameNummer = 1;
+      this.aanDeBeurt = false;
+    }
     this.x = constrain(this.x,0,canvas.width);
     this.y = constrain(this.y,0,canvas.height - raster.celGrootte);
     
@@ -60,6 +65,16 @@ class Jos {
   
   wordtGeraakt(vijand) {
     if (this.x == vijand.x && this.y == vijand.y) {
+      this.levens -= 1;
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  KomtOpMedkit(kit) {
+    if (this.x == kit.x && this.y == kit.y && eve.aanDeBeurt == false) {
+      this.levens += 1;
       return true;
     }
     else {
@@ -113,15 +128,36 @@ class Bom {
 		        image(this.sprite, this.x, this.y, raster.celGrootte, raster.celGrootte);
 	}
 }
+class Medkit {
+  constructor(x,y) {
+    this.x = x;
+    this.y = y;
+    this.sprite = null;
+    this.stapGrootte = null;
+  }
+
+  
+
+  toon() {
+  image(this.sprite,this.x,this.y,raster.celGrootte,raster.celGrootte);
+  }
+  verwijder(){
+    remove();
+  }
+  
+}
+
+
 let gewonnen2;
-let explosion;
+let nukeexlposion;
 
 function preload() {
   achtergrond = loadImage("images/backgrounds/informatica playground.jpg");
   dood = loadImage("images/backgrounds/Disabled-Death-Screen.png");
   gewonnen = loadImage("images/backgrounds/GTA-Mission-Passed.jpg");
   gewonnen2 = loadSound("Sound/Win.mp3");
-  exlposion = loadSound("Sound/Explosion.mp3");
+  backgroundnuke = loadImage ("images/backgrounds/backgroundnuke.jpg");
+  nukeexlposion = loadSound("Sound/nukeexlposion.mp3");
 }
 
 function setup() {
@@ -160,20 +196,39 @@ function setup() {
 	bom3 = new Bom(300, raster.celGrootte);
 	bom3.stapGrootte = 1 * raster.celGrootte;
 	bom3.sprite = loadImage("images/sprites/bomb.png");
-  
+
+  bom4 = new Bom(700, raster.celGrootte);
+  bom4.stapGrootte = 5 * raster.celGrootte;
+  bom4.sprite = loadImage("images/sprites/bomb.png");
+
+  bom5 = new Bom(500, raster.celGrootte);
+  bom5.stapGrootte = 4 * raster.celGrootte;
+  bom5.sprite = loadImage("images/sprites/bomb.png");
+
+  medkit = new Medkit(150, 400);
+  medkit.sprite = loadImage("images/sprites/medkit2.png")
+
+  medkit1 = new Medkit(650,200);
+  medkit1.sprite = loadImage("images/sprites/medkit2.png")
 }
 
 function draw() {
   background(achtergrond);
-  bob.beweeg();
 	bom1.beweeg();
 	bom2.beweeg();
 	bom3.beweeg();
+  bom4.beweeg();
+  bom5.beweeg();
   bob.toon();
 	bom1.toon();
 	bom2.toon();
 	bom3.toon();
+  bom4.toon();
+  bom5.toon();
+  medkit.toon();
+  medkit1.toon();
   raster.teken();
+  text(eve.levens, 50, 100);
   
   if (eve.aanDeBeurt) {
     eve.beweeg();
@@ -193,9 +248,32 @@ function draw() {
   bob.toon();
   
   if (eve.wordtGeraakt(alice) || eve.wordtGeraakt(bob)) {
-    noLoop();
-    background(dood);
+    if (eve.levens == 0){
+      background(dood);
+      //catched.play();
+      noLoop();
+    }
+    else{
+      return
+    }
   }
+  
+  if (eve.wordtGeraakt(bom1) || eve.wordtGeraakt(bom2) || eve.wordtGeraakt(bom3) ||eve.wordtGeraakt(bom4) || eve.wordtGeraakt(bom5)) { 
+    if (eve.levens == 0){
+      noLoop();
+      background(backgroundnuke);
+      nukeexlposion.play();
+    }
+    else{
+      return
+    }
+
+  }
+  if (eve.KomtOpMedkit(medkit)) {
+    //leven += 1;
+    //medkit.verwijder();
+  }
+  
   if (eve.gehaald) {
     noLoop();
     background(gewonnen);
