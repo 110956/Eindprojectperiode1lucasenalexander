@@ -74,7 +74,8 @@ class Jos {
   }
   KomtOpMedkit(kit) {
     if (this.x == kit.x && this.y == kit.y && eve.aanDeBeurt == false) {
-      this.levens += 1;
+      //this.levens += 1;
+     // kit.verwijder();
       return true;
     }
     else {
@@ -134,6 +135,8 @@ class Medkit {
     this.y = y;
     this.sprite = null;
     this.stapGrootte = null;
+    this.available = true;
+    this.available1 = true;
   }
 
   
@@ -142,7 +145,10 @@ class Medkit {
   image(this.sprite,this.x,this.y,raster.celGrootte,raster.celGrootte);
   }
   verwijder(){
-    remove();
+    this.available = false;
+  }
+  verwijder1(){
+    this.available1 = false;
   }
   
 }
@@ -150,6 +156,8 @@ class Medkit {
 
 let gewonnen2;
 let nukeexlposion;
+let medkit;
+let medkit1;
 
 function preload() {
   achtergrond = loadImage("images/backgrounds/informatica playground.jpg");
@@ -158,6 +166,9 @@ function preload() {
   gewonnen2 = loadSound("Sound/Win.mp3");
   backgroundnuke = loadImage ("images/backgrounds/backgroundnuke.jpg");
   nukeexlposion = loadSound("Sound/nukeexlposion.mp3");
+  leven1 = loadImage("images/sprites/hart.png");
+  leven2 = loadImage("images/sprites/hart2.png");
+  leven3 = loadImage("images/sprites/hart3.png");
 }
 
 function setup() {
@@ -208,7 +219,7 @@ function setup() {
   medkit = new Medkit(150, 400);
   medkit.sprite = loadImage("images/sprites/medkit2.png")
 
-  medkit1 = new Medkit(650,200);
+  medkit1 = new Medkit(700,200);
   medkit1.sprite = loadImage("images/sprites/medkit2.png")
 }
 
@@ -225,10 +236,20 @@ function draw() {
 	bom3.toon();
   bom4.toon();
   bom5.toon();
-  medkit.toon();
-  medkit1.toon();
+  if(medkit.available){
+  medkit.toon();}
+  if(medkit1.available1){
+    medkit1.toon();}
   raster.teken();
-  text(eve.levens, 50, 100);
+  if (eve.levens == 1){
+    image(leven1, 10, 10, 50, 50)
+  }
+  if (eve.levens == 2){
+    image(leven2, 10, 10, 100, 50)
+  }
+  if (eve.levens == 3){
+    image(leven3, 10, 10, 150, 50)
+  }
   
   if (eve.aanDeBeurt) {
     eve.beweeg();
@@ -270,8 +291,15 @@ function draw() {
 
   }
   if (eve.KomtOpMedkit(medkit)) {
-    //leven += 1;
-    //medkit.verwijder();
+    if(medkit.available){
+      eve.levens += 1;}
+    medkit.verwijder();
+  }
+
+  if (eve.KomtOpMedkit(medkit1)) {
+    if(medkit1.available1){
+      eve.levens += 1;}
+    medkit1.verwijder1();
   }
   
   if (eve.gehaald) {
