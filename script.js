@@ -159,15 +159,15 @@ let tankschot;
 let medkit;
 let medkit1;
 
+
 function preload() { //repload voor alle afbeeldingen en geluiden die we in dit spel hebben.
-  
   achtergrond = loadImage("images/backgrounds/informatica playground.jpg");
-  dood = loadImage("images/backgrounds/Disabled-Death-Screen.png");
+  dood = loadImage("images/backgrounds/wasted.png");
   gewonnen = loadImage("images/backgrounds/GTA-Mission-Passed.jpg");
   gewonnen2 = loadSound("Sound/Win.mp3");
   backgroundnuke = loadImage ("images/backgrounds/backgroundnuke.jpg");
   nukeexlposion = loadSound("Sound/nukeexlposion.mp3");
-  tankschot = loadSound("Sound/tankschot.mp3");
+  tankschot = loadSound("Sound/tankschot2.mp3");
   leven1 = loadImage("images/sprites/hart.png");
   leven2 = loadImage("images/sprites/hart2.png");
   leven3 = loadImage("images/sprites/hart3.png");
@@ -180,7 +180,7 @@ function setup() {
   frameRate(10);                  // 10 FPS
   textFont("Verdana");
   textSize(90);
-
+ 
   achtergrondmuziek.loop(); //Speelt muziek af en zorgt dat hij nooit stopt
   achtergrondmuziek.setVolume(0.2); //Zo dat de muziek niet te hard is in volume
   
@@ -251,6 +251,7 @@ function draw() {
 	bom3.toon();
   bom4.toon();
   bom5.toon();
+  
   if(medkit.available){
   medkit.toon();}
   if(medkit1.available1){
