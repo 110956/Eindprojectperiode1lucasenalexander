@@ -1,4 +1,4 @@
-class Raster {
+class Raster { //Raster word gemaakt 
   constructor(r,k) {
     this.aantalRijen = r;
     this.aantalKolommen = k;
@@ -22,7 +22,7 @@ class Raster {
   }
 }
 
-class Jos {
+class Jos { //De schepping van jos
   constructor() {
     this.x = 0;
     this.y = 300;
@@ -34,7 +34,7 @@ class Jos {
     this.levens = 1;
   }
   
-  beweeg() {
+  beweeg() { //Bestuuring m.b.v. WASD, achteruit hebben we extra toegevoegd!
     if (keyIsDown(68)) {
       this.x += this.stapGrootte;
       this.frameNummer = 1;
@@ -74,8 +74,7 @@ class Jos {
   }
   KomtOpMedkit(kit) {
     if (this.x == kit.x && this.y == kit.y && eve.aanDeBeurt == false) {
-      //this.levens += 1;
-     // kit.verwijder();
+     
       return true;
     }
     else {
@@ -88,7 +87,7 @@ class Jos {
   }
 }
 
-class Vijand {
+class Vijand {  //Schepping van vijandige tanks
   constructor(x,y) {
     this.x = x;
     this.y = y;
@@ -109,7 +108,7 @@ class Vijand {
   }
 }
 var x = [500, 550, 600, 650, 700, 750, 800, 850];
-class Bom {
+class Bom { //Schepping van de bommen
   constructor(y,vy) {
     this.x = random(x);
     this.y = y;
@@ -156,28 +155,31 @@ class Medkit {
 
 let gewonnen2;
 let nukeexlposion;
+let tankschot;
 let medkit;
 let medkit1;
 
-function preload() {
+function preload() { //repload voor alle afbeeldingen en geluiden die we in dit spel hebben.
+  
   achtergrond = loadImage("images/backgrounds/informatica playground.jpg");
   dood = loadImage("images/backgrounds/Disabled-Death-Screen.png");
   gewonnen = loadImage("images/backgrounds/GTA-Mission-Passed.jpg");
   gewonnen2 = loadSound("Sound/Win.mp3");
   backgroundnuke = loadImage ("images/backgrounds/backgroundnuke.jpg");
   nukeexlposion = loadSound("Sound/nukeexlposion.mp3");
+  //tankschot = loadSound("tankschot.mp3");
   leven1 = loadImage("images/sprites/hart.png");
   leven2 = loadImage("images/sprites/hart2.png");
   leven3 = loadImage("images/sprites/hart3.png");
 }
 
-function setup() {
-  canvas = createCanvas(900,600);
-  frameRate(10);
+function setup() { 
+  canvas = createCanvas(900,600); //Creatie spelgebied
+  frameRate(10);                  // 10 FPS
   textFont("Verdana");
   textSize(90);
   
-  raster = new Raster(12,18);
+  raster = new Raster(12,18); //Raster groote 12 bij 18 gemaakt
   
   raster.berekenCelGrootte();
   
@@ -188,7 +190,7 @@ function setup() {
     eve.animatie.push(frameEve);
   }
   
-  alice = new Vijand(700,200);
+  alice = new Vijand(700,150);
   alice.stapGrootte = 1*eve.stapGrootte;
   alice.sprite = loadImage("images/sprites/Alice100px/tank1.png");
 
@@ -223,8 +225,16 @@ function setup() {
   medkit1.sprite = loadImage("images/sprites/medkit2.png")
 }
 
-function draw() {
+function draw() { //Zichtbaar maken van alle atributen (bommen, medkit, eve, alice, bob, levens)
   background(achtergrond);
+  fill("green"); // Raster verticaal en horizontaal ingekleurd m.b.v 4 rectangles te maken op de juiste locatie
+  rect(000, 0, 50, 600);
+  rect(850, 0, 50, 600);
+  rect(0, 0, 900, 50);
+  rect(0, 550, 900, 50);
+  eve.toon();
+  alice.toon();
+  bob.toon();
 	bom1.beweeg();
 	bom2.beweeg();
 	bom3.beweeg();
@@ -264,9 +274,7 @@ function draw() {
     bob.beweeg();
   }
   
-  eve.toon();
-  alice.toon();
-  bob.toon();
+  
   
   if (eve.wordtGeraakt(alice) || eve.wordtGeraakt(bob)) {
     if (eve.levens == 0){
@@ -303,8 +311,27 @@ function draw() {
   }
   
   if (eve.gehaald) {
-    noLoop();
-    background(gewonnen);
-    gewonnen2.play(); 
+     if (keyIsDown(32)){
+       eve.gehaald = false;
+       eve.levens = 1;
+       eve.aanDeBeurt = true;
+       preload();
+       setup();
+       draw();
+     }
+    else{
+      noLoop();
+      background(gewonnen);
+      gewonnen2.play();
+    }
   }
+  //if (eve.gehaald == true || eve.levens == 0 && keyIsDown(32)){
+    //eve.gehaald = false;
+    //eve.levens = 1;
+    //eve.aanDeBeurt = true;
+    //preload();
+   // setup();
+   // draw();
+ // }
 }
+
