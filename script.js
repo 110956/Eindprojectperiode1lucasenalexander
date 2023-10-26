@@ -167,10 +167,12 @@ function preload() { //repload voor alle afbeeldingen en geluiden die we in dit 
   gewonnen2 = loadSound("Sound/Win.mp3");
   backgroundnuke = loadImage ("images/backgrounds/backgroundnuke.jpg");
   nukeexlposion = loadSound("Sound/nukeexlposion.mp3");
-  //tankschot = loadSound("tankschot.mp3");
+  tankschot = loadSound("Sound/tankschot.mp3");
   leven1 = loadImage("images/sprites/hart.png");
   leven2 = loadImage("images/sprites/hart2.png");
   leven3 = loadImage("images/sprites/hart3.png");
+  levenerbij = loadSound("Sound/levenerbij.mp3");
+  achtergrondmuziek = loadSound("Sound/achtergrondmuziek.mp3");
 }
 
 function setup() { 
@@ -178,9 +180,11 @@ function setup() {
   frameRate(10);                  // 10 FPS
   textFont("Verdana");
   textSize(90);
+
+  achtergrondmuziek.loop(); //Speelt muziek af en zorgt dat hij nooit stopt
+  achtergrondmuziek.setVolume(0.2); //Zo dat de muziek niet te hard is in volume
   
   raster = new Raster(12,18); //Raster groote 12 bij 18 gemaakt
-  
   raster.berekenCelGrootte();
   
   eve = new Jos();
@@ -225,13 +229,14 @@ function setup() {
   medkit1.sprite = loadImage("images/sprites/medkit2.png")
 }
 
-function draw() { //Zichtbaar maken van alle atributen (bommen, medkit, eve, alice, bob, levens)
+function draw() { 
   background(achtergrond);
   fill("green"); // Raster verticaal en horizontaal ingekleurd m.b.v 4 rectangles te maken op de juiste locatie
   rect(000, 0, 50, 600);
   rect(850, 0, 50, 600);
   rect(0, 0, 900, 50);
   rect(0, 550, 900, 50);
+  //Zichtbaar maken van alle atributen (bommen, medkit, eve, alice, bob, levens)
   eve.toon();
   alice.toon();
   bob.toon();
@@ -278,8 +283,9 @@ function draw() { //Zichtbaar maken van alle atributen (bommen, medkit, eve, ali
   
   if (eve.wordtGeraakt(alice) || eve.wordtGeraakt(bob)) {
     if (eve.levens == 0){
+      achtergrondmuziek.stop();
       background(dood);
-      //catched.play();
+      tankschot.play();
       noLoop();
     }
     else{
@@ -290,6 +296,7 @@ function draw() { //Zichtbaar maken van alle atributen (bommen, medkit, eve, ali
   if (eve.wordtGeraakt(bom1) || eve.wordtGeraakt(bom2) || eve.wordtGeraakt(bom3) ||eve.wordtGeraakt(bom4) || eve.wordtGeraakt(bom5)) { 
     if (eve.levens == 0){
       noLoop();
+      achtergrondmuziek.stop();
       background(backgroundnuke);
       nukeexlposion.play();
     }
@@ -300,13 +307,29 @@ function draw() { //Zichtbaar maken van alle atributen (bommen, medkit, eve, ali
   }
   if (eve.KomtOpMedkit(medkit)) {
     if(medkit.available){
-      eve.levens += 1;}
-    medkit.verwijder();
+      achtergrondmuziek.pause();
+      levenerbij.setVolume(0.2);
+        levenerbij.play();
+        //Wacht 1200 millie seconden voordat de achtergrondmuziek verder gaat.
+        setTimeout(function() {
+          achtergrondmuziek.play();
+        }, 1200); 
+        eve.levens += 1;
+      }
+      medkit.verwijder();
   }
 
   if (eve.KomtOpMedkit(medkit1)) {
     if(medkit1.available1){
-      eve.levens += 1;}
+      achtergrondmuziek.pause();
+      levenerbij.setVolume(0.2);
+        levenerbij.play();
+        //Wacht 1200 millie seconden voordat de achtergrondmuziek verder gaat.
+        setTimeout(function() {
+          achtergrondmuziek.play();
+        }, 1200);
+        eve.levens += 1;
+      }
     medkit1.verwijder1();
   }
   
@@ -321,6 +344,7 @@ function draw() { //Zichtbaar maken van alle atributen (bommen, medkit, eve, ali
      }
     else{
       noLoop();
+      achtergrondmuziek.stop();
       background(gewonnen);
       gewonnen2.play();
     }
