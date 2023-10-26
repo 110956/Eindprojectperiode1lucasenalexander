@@ -258,13 +258,13 @@ function draw() {
     medkit1.toon();}
   raster.teken();
   if (eve.levens == 1){
-    image(leven1, 10, 10, 50, 50)
+    image(leven1, 00, 00, 50, 50)
   }
   if (eve.levens == 2){
-    image(leven2, 10, 10, 100, 50)
+    image(leven2, 00, 00, 100, 50)
   }
   if (eve.levens == 3){
-    image(leven3, 10, 10, 150, 50)
+    image(leven3, 00, 00, 150, 50)
   }
   
   if (eve.aanDeBeurt) {
